@@ -67,22 +67,33 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## Prerequisites
 
 PHP >= 7.3
+
 composer v.2
+
 MySQL (version > 5)
+
 Apache
 
 
 ## Database and User Preperation
 
 Using the MySQL command line with superuser run the following command lines:
+
 CREATE DATABASE ingot;
+
 CREATE USER 'ingot_user'@'localhost' IDENTIFIED with mysql_native_password BY 'In807_u53r';
+
 GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'ingot_user'@'localhost' WITH GRANT OPTION;
+
 FLUSH PRIVILEGES;
+
 exit;
 
 
 ## RUN
+
 composer install
+
 php artisan migrate
+
 php artisan serve
