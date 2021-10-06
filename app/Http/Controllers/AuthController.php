@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Helpers\UserHelper;
 use App\Models\User;
 use Session;
 
@@ -17,7 +19,11 @@ class AuthController extends Controller
         }
 
         if (Request()->has('ref')) {
-            session(['referrer' => Request()->query('ref')]);
+            $referralToken = Request()->query('ref');
+            if (session()->pull('referrer') != $referralToken) {
+                $this->incrementReferalViewsCount($referralToken);
+            }
+            session(['referrer' => $referralToken]);
         }
         return view('registration-form');
     }
@@ -49,7 +55,11 @@ class AuthController extends Controller
         );
         // attempt to do the login
         if (Auth::attempt($userdata))  {
-            return Redirect::to('/');
+            if (auth()->user()->is_admin == 1) {
+                return Redirect::to('/');
+            } else {
+                return Redirect::to('dashboard');
+            }
         } else {
             // validation not successful, send back to form
             return Redirect::to('login')->with("failed", "Alert! Failed to login. Please check email or password");
@@ -98,5 +108,14 @@ class AuthController extends Controller
         $my_rand_strng = substr(str_shuffle("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"), -5);
 
         return $my_rand_strng."".time();
+    }
+    public function incrementReferalViewsCount($referralToken)
+    {
+        try {
+            DB::table('users')->where('referral_token',$referralToken)->increment('referral_views');
+        } catch (\Throwable $th) {
+            return null;
+        }
+        return 1;
     }
 }

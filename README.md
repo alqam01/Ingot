@@ -96,4 +96,12 @@ composer install
 
 php artisan migrate
 
+php artisan db:seed --class=CreateUsersSeeder
+
 php artisan serve
+
+## Admin user credintials
+
+Email: admin@ingot.com
+
+Pass: "adminadmin"

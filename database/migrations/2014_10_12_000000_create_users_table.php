@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('profile_image_url')->nullable();
             $table->unsignedBigInteger('referrer_id')->nullable();
             $table->string('referral_token')->unique();
+            $table->boolean('is_admin')->nullable();
+            $table->integer('referral_views')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

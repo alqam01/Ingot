@@ -23,7 +23,9 @@ class User extends Authenticatable
         'password',
         'profile_image_url',
         'referrer_id',
-        'referral_token'
+        'referral_token',
+        'is_admin',
+        'referral_views',
     ];
 
     /**
@@ -44,16 +46,6 @@ class User extends Authenticatable
     protected $appends = ['referral_link'];
 
     /**
-     * Get the user's referral link.
-     *
-     * @return string
-     */
-    public function getReferralLinkAttribute()
-    {
-        return $this->referral_link = route('register', ['ref' => $this->referral_token]);
-    }
-
-    /**
      * A user has a referrer.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -72,6 +64,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class, 'referrer_id', 'id');
     }
+
     /**
      * The attributes that should be cast.
      *
@@ -80,4 +73,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the user's referral link.
+     *
+     * @return string
+     */
+    public function getReferralLinkAttribute()
+    {
+        return $this->referral_link = route('register', ['ref' => $this->referral_token]);
+    }
+
+
 }
