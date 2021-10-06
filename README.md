@@ -77,7 +77,7 @@ Apache
 
 ## Database and User Preperation
 
-Using the MySQL command line with superuser run the following command lines:
+Using the MySQL command line with superuser then run the following command lines:
 
 CREATE DATABASE ingot;
 
@@ -100,7 +100,7 @@ php artisan db:seed --class=CreateUsersSeeder
 
 php artisan serve
 
-## Admin user credintials
+## Admin user credentials
 
 Email: admin@ingot.com
 
